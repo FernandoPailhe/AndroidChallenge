@@ -75,13 +75,13 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-
-    implementation(libs.hilt.android)
     implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.paging.compose.android)
+    implementation(libs.kotlinx.coroutines.android)
 
     // Hilt dependencies
     ksp(libs.hilt.compiler)
+    implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
 
     // Room dependencies
@@ -94,6 +94,9 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
 
+    // Google maps
+    implementation(libs.google.maps.compose)
+    implementation(libs.google.play.services.maps)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

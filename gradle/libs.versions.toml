@@ -15,6 +15,9 @@ retrofit = "2.9.0"
 pagingRuntime = "3.3.4"
 pagingComposeAndroid = "1.0.0-alpha20"
 hiltNavigationCompose = "1.0.0"
+google-maps-compose = "2.11.0"
+google-play-services-maps = "18.1.0"
+kotlin-coroutines = "1.7.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -42,6 +45,9 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 retrofit-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "pagingRuntime" }
 androidx-paging-compose-android = { group = "androidx.paging", name = "paging-compose", version.ref = "pagingComposeAndroid" }
+google-maps-compose = { group = "com.google.maps.android", name = "maps-compose", version.ref = "google-maps-compose" }
+google-play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "google-play-services-maps" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlin-coroutines" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

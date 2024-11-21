@@ -55,6 +55,7 @@ fun SearchCityScreen(
                             city = city,
                             onCardPress = {
                                 viewModel.selectCity(city)
+                                navController.navigate(Screen.MapScreenRoute.route)
                             },
                             onFavoritePress = {
                                 viewModel.toggleIsFavorite(city)

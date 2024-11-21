@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ferpa.androidchallenge.presentation.city.CityViewModel
 import com.ferpa.androidchallenge.presentation.city.screens.CityDetailScreen
+import com.ferpa.androidchallenge.presentation.city.screens.MapScreen
 import com.ferpa.androidchallenge.presentation.city.screens.SearchCityScreen
 
 @Composable
@@ -20,6 +21,9 @@ fun AppNavigation() {
         }
         composable(route = Screen.CityDetailScreenRoute.route) {
             CityDetailScreen(navController, viewModel)
+        }
+        composable(Screen.MapScreenRoute.route) {
+            MapScreen(navController, viewModel)
         }
     }
 }
