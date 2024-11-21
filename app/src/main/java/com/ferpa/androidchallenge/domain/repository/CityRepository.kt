@@ -7,4 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface CityRepository {
     suspend fun fetchAndStoreCities()
     fun getPagedCities(): Flow<PagingData<City>>
+    fun searchCities(query: String): Flow<List<City>>
 }

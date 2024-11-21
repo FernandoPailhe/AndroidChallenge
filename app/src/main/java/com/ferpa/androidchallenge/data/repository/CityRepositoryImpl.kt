@@ -41,4 +41,8 @@ class CityRepositoryImpl(
         ).flow
     }
 
+    override fun searchCities(query: String): Flow<List<City>> {
+        return cityDao.searchCities(query)
+    }
+
 }

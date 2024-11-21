@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ferpa.androidchallenge.remote.dto.City
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CityDao {
@@ -18,5 +19,13 @@ interface CityDao {
 
     @Query("SELECT * FROM city ORDER BY name ASC, country ASC")
     fun getPagedCities(): PagingSource<Int, City>
+
+    @Query(
+        "SELECT * FROM city " +
+                "WHERE name LIKE :query || '%' " +
+                "OR country LIKE :query || '%' " +
+                "ORDER BY name ASC"
+    )
+    fun searchCities(query: String): Flow<List<City>>
 
 }
