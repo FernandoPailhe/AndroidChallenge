@@ -59,6 +59,9 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
+    }
 }
 
 dependencies {
@@ -72,14 +75,20 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-    // Hilt dependencies
+
     implementation(libs.hilt.android)
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.compose.android)
+
+    // Hilt dependencies
     ksp(libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
 
     // Room dependencies
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
+    implementation(libs.room.paging)
 
     // Retrofit dependencies
     implementation(libs.retrofit)
