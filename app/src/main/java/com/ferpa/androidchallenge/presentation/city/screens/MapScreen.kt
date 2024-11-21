@@ -82,7 +82,7 @@ fun MapScreen(
             city?.let {
                 Marker(
                     state = MarkerState(
-                        position = com.google.android.gms.maps.model.LatLng(it.coord.lat, it.coord.lon)
+                        position = LatLng(it.coord.lat, it.coord.lon)
                     ),
                     title = it.name,
                     snippet = it.country
@@ -90,5 +90,4 @@ fun MapScreen(
             }
         }
     }
-
 }

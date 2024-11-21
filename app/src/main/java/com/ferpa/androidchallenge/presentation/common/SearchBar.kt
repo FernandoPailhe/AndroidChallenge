@@ -9,14 +9,16 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ferpa.androidchallenge.R
 
 @Composable
 fun SearchBar(
     query: String,
     onQueryChanged: (String) -> Unit,
     modifier: Modifier = Modifier,
-    placeholder: String = "Search..."
+    placeholder: String = stringResource(id = R.string.search_placeholder)
 ) {
     TextField(
         value = query,
@@ -32,10 +34,5 @@ fun SearchBar(
         },
         singleLine = true,
         shape = RoundedCornerShape(8.dp),
-//        colors = TextFieldDefaults (
-//            backgroundColor = MaterialTheme.colorScheme.surface,
-//            focusedIndicatorColor = Color.Transparent,
-//            unfocusedIndicatorColor = Color.Transparent
-//        )
     )
 }

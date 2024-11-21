@@ -13,9 +13,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.ferpa.androidchallenge.R
 import com.ferpa.androidchallenge.presentation.city.CityViewModel
 
 @Composable
@@ -33,14 +35,14 @@ fun CityDetailScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "The code for this screen was not provided")
+        Text(text = stringResource(id = R.string.city_detail_disclaimer))
         if (city != null) {
-            Text(text = "City: ${city?.name}")
-            Text(text = "Country Code: ${city?.country}")
+            Text(text = "${stringResource(id = R.string.city)}${city?.name}")
+            Text(text = "${stringResource(id = R.string.country_code)}${city?.country}")
             Spacer(modifier = Modifier.height(16.dp))
         }
         Button(onClick = { navController.popBackStack() }) {
-            Text(text = "Back")
+            Text(text = stringResource(id = R.string.back_button))
         }
     }
 

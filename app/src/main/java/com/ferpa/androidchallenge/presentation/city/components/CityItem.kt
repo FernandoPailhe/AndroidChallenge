@@ -21,7 +21,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ferpa.androidchallenge.R
 import com.ferpa.androidchallenge.remote.dto.City
 import com.ferpa.androidchallenge.remote.dto.getCardSubtitle
 import com.ferpa.androidchallenge.remote.dto.getCardTitle
@@ -65,11 +67,11 @@ fun CityItem(
                     Icon(
                         imageVector = Icons.Default.LocationOn,
                         contentDescription = "Location icon",
-                        modifier = Modifier.size(8.dp),
+                        modifier = Modifier.size(12.dp),
                         tint = MaterialTheme.colorScheme.primary
                     )
                     Text(
-                        text = city.getCardSubtitle(),
+                        text = stringResource(R.string.coordinates, city.coord.lat, city.coord.lon),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface
                     )

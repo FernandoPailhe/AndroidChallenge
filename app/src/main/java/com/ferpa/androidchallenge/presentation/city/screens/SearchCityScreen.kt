@@ -17,11 +17,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.ferpa.androidchallenge.R
 import com.ferpa.androidchallenge.presentation.Screen
 import com.ferpa.androidchallenge.presentation.city.CityViewModel
 import com.ferpa.androidchallenge.presentation.city.components.CityItem
@@ -50,7 +52,7 @@ fun SearchCityScreen(
             query = query,
             onQueryChanged = { viewModel.updateQuery(it) },
             modifier = Modifier.padding(horizontal = padding, vertical = 0.dp),
-            placeholder = "Search cities..."
+            placeholder = stringResource(id = R.string.search_cities_placeholder)
         )
         Row(
             modifier = Modifier
@@ -63,7 +65,7 @@ fun SearchCityScreen(
                 onCheckedChange = { viewModel.toggleFavoritesFilter() }
             )
             Text(
-                text = "Show Favorites",
+                text = stringResource(id = R.string.show_favorites),
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(start = 4.dp)
             )
@@ -110,7 +112,7 @@ fun SearchCityScreen(
                             onCardPress = {
                                 viewModel.selectCity(city)
                             },
-                            onFavoritePress = { /* Handle favorite */ },
+                            onFavoritePress = { viewModel.toggleIsFavorite(city) },
                             onInfoPress = {
                                 viewModel.selectCity(city)
                                 navController.navigate(Screen.CityDetailScreenRoute.route)

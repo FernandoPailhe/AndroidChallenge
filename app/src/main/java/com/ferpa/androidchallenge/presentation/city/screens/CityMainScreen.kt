@@ -27,9 +27,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.ferpa.androidchallenge.R
 import com.ferpa.androidchallenge.common.UiState
 import com.ferpa.androidchallenge.presentation.city.CityViewModel
 import com.ferpa.androidchallenge.presentation.utils.isLandscape
@@ -53,7 +55,8 @@ fun CityMainScreen(
             if (progress < 100) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(text = "Downloading data: $progress%", modifier = Modifier.padding(16.dp))
+                        Text(text = "${stringResource(id = R.string.fetching_data)}", modifier = Modifier.padding(16.dp))
+                        Text(text = "$progress%", modifier = Modifier.padding(16.dp))
                         LinearProgressIndicator(progress = progress / 100f)
                     }
                 }
@@ -103,7 +106,6 @@ fun CityMainScreen(
                         }
                     }
                 }
-//                CityContent(navController = navController, viewModel = viewModel)
             }
         }
         is UiState.Error -> {
