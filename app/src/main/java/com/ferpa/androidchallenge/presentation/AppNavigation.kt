@@ -7,23 +7,19 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ferpa.androidchallenge.presentation.city.CityViewModel
 import com.ferpa.androidchallenge.presentation.city.screens.CityDetailScreen
-import com.ferpa.androidchallenge.presentation.city.screens.MapScreen
-import com.ferpa.androidchallenge.presentation.city.screens.SearchCityScreen
+import com.ferpa.androidchallenge.presentation.city.screens.CityMainScreen
 
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
     val viewModel: CityViewModel = hiltViewModel()
 
-    NavHost(navController = navController, startDestination = Screen.SearchCityScreenRoute.route) {
-        composable(route = Screen.SearchCityScreenRoute.route) {
-            SearchCityScreen(navController, viewModel)
+    NavHost(navController = navController, startDestination = Screen.CityMainScreenRoute.route) {
+        composable(route = Screen.CityMainScreenRoute.route) {
+            CityMainScreen(navController, viewModel)
         }
         composable(route = Screen.CityDetailScreenRoute.route) {
             CityDetailScreen(navController, viewModel)
-        }
-        composable(Screen.MapScreenRoute.route) {
-            MapScreen(navController, viewModel)
         }
     }
 }

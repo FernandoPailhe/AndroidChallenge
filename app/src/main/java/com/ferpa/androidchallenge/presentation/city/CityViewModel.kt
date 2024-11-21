@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.ferpa.androidchallenge.common.UiState
 import com.ferpa.androidchallenge.domain.businesslogic.SearchCitiesUseCase
 import com.ferpa.androidchallenge.domain.repository.CityRepository
 import com.ferpa.androidchallenge.remote.dto.City
@@ -26,6 +27,9 @@ class CityViewModel @Inject constructor(
     private val cityRepository: CityRepository,
     private val searchCitiesUseCase: SearchCitiesUseCase
 ) : ViewModel() {
+
+    private val _uiState = MutableStateFlow<UiState<Int>>(UiState.Loading)
+    val uiState: StateFlow<UiState<Int>> = _uiState
 
     private val _selectedCity = MutableStateFlow<City?>(null)
     val selectedCity: StateFlow<City?> = _selectedCity
@@ -57,13 +61,15 @@ class CityViewModel @Inject constructor(
     }
 
     fun updateQuery(newQuery: String) {
-        Log.d("ViewModel", newQuery)
         _query.value = newQuery
     }
 
     private fun downloadAndSaveCities() {
-        viewModelScope.launch(Dispatchers.IO) {
-            cityRepository.fetchAndStoreCities()
+        viewModelScope.launch {
+            cityRepository.fetchAndStoreCities { progress ->
+                _uiState.value = UiState.Success(progress)
+            }
+            _uiState.value = UiState.Success(100)
         }
     }
 

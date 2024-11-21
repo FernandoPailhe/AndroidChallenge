@@ -7,7 +7,6 @@ package com.ferpa.androidchallenge.presentation
  * @property route The string identifier used to navigate to the corresponding screen.
  */
 sealed class Screen(val route: String) {
-    data object SearchCityScreenRoute : Screen("search_city_screen")
+    data object CityMainScreenRoute : Screen("city_main_screen")
     data object CityDetailScreenRoute : Screen("city_detail_screen")
-    data object MapScreenRoute : Screen("map_screen")
 }

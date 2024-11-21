@@ -33,6 +33,7 @@ fun CityDetailScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Text(text = "The code for this screen was not provided")
         if (city != null) {
             Text(text = "City: ${city?.name}")
             Text(text = "Country Code: ${city?.country}")

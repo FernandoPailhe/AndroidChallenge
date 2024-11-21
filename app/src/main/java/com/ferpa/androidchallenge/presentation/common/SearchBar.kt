@@ -22,8 +22,7 @@ fun SearchBar(
         value = query,
         onValueChange = onQueryChanged,
         modifier = modifier
-            .fillMaxWidth()
-            .padding(8.dp),
+            .fillMaxWidth(),
         placeholder = { Text(text = placeholder) },
         leadingIcon = {
             Icon(

@@ -19,3 +19,11 @@ data class Coordinates(
     val lon: Double,
     val lat: Double
 )
+
+fun City.getCardTitle(): String {
+    return "$name, $country"
+}
+
+fun City.getCardSubtitle(): String {
+    return "${coord.lat}, ${coord.lon}"
+}

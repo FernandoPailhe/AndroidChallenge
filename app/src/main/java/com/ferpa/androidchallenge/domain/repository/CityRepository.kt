@@ -5,7 +5,7 @@ import com.ferpa.androidchallenge.remote.dto.City
 import kotlinx.coroutines.flow.Flow
 
 interface CityRepository {
-    suspend fun fetchAndStoreCities()
+    suspend fun fetchAndStoreCities(onProgress: (Int) -> Unit)
     fun getPagedCities(): Flow<PagingData<City>>
     fun searchCities(query: String): Flow<List<City>>
 }
