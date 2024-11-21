@@ -9,4 +9,11 @@
     <string name="city">City: </string>
     <string name="country_code">Country code: </string>
     <string name="back_button">Go back</string>
+    <string name="error_dialog_title">Google Maps API Error</string>
+    <string name="error_dialog_message">
+        The Google Maps API key is invalid or not configured correctly.
+        Please refer to the README file in the project repository for instructions
+        on how to configure a valid API key. Contact support if you need further assistance.
+    </string>
+    <string name="error_dialog_accept_button">Accept</string>
 </resources>
