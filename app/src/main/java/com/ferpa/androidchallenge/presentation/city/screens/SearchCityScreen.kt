@@ -44,8 +44,7 @@ fun SearchCityScreen(
     val query by viewModel.query.collectAsState()
 
     val onlyFavorites by viewModel.onlyFavorites.collectAsState()
-    val searchResults by viewModel.searchResults.collectAsState()
-    val pagedCities = viewModel.pagedCities.collectAsLazyPagingItems()
+    val searchResults = viewModel.searchResults.collectAsLazyPagingItems()
 
     Column(modifier = modifier.fillMaxSize()) {
         SearchBar(
@@ -70,14 +69,13 @@ fun SearchCityScreen(
                 modifier = Modifier.padding(start = 4.dp)
             )
         }
-        if (query == "") {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
             ) {
-                items(pagedCities.itemCount) { index ->
-                    val city = pagedCities[index]
+                items(searchResults.itemCount) { index ->
+                    val city = searchResults[index]
                     if (city !== null) {
                         CityItem(
                             index = index,
@@ -98,54 +96,7 @@ fun SearchCityScreen(
                     }
                 }
             }
-        } else {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding)
-            ) {
-                items(searchResults) { city ->
-                    city?.let {
-                        CityItem(
-                            index = searchResults.indexOf(city),
-                            city = city,
-                            onCardPress = {
-                                viewModel.selectCity(city)
-                            },
-                            onFavoritePress = { viewModel.toggleIsFavorite(city) },
-                            onInfoPress = {
-                                viewModel.selectCity(city)
-                                navController.navigate(Screen.CityDetailScreenRoute.route)
-                            }
-                        )
-                    }
-                }
-            }
-        }
 
-    }
-
-    when (pagedCities.loadState.append) {
-        is LoadState.Loading -> {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        }
-
-        is LoadState.Error -> {
-            Text(
-                text = "Error loading more data",
-                modifier = Modifier.padding(16.dp),
-                color = MaterialTheme.colorScheme.error
-            )
-        }
-
-        else -> {}
     }
 
 }

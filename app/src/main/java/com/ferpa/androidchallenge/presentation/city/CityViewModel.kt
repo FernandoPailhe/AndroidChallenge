@@ -43,7 +43,8 @@ class CityViewModel @Inject constructor(
     private val _onlyFavorites = MutableStateFlow<Boolean?>(null)
     val onlyFavorites: StateFlow<Boolean?> = _onlyFavorites
 
-    val searchResults: StateFlow<List<City>> = combine(
+    // Unified paginated results with or without search query
+    val searchResults: Flow<PagingData<City>> = combine(
         query.debounce(300).distinctUntilChanged(),
         _onlyFavorites
     ) { query, onlyFavorites ->
@@ -52,17 +53,11 @@ class CityViewModel @Inject constructor(
         .flatMapLatest { (query, onlyFavorites) ->
             searchCitiesUseCase(query, onlyFavorites)
         }
-        .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+        .cachedIn(viewModelScope)
 
     init {
         downloadAndSaveCities()
     }
-
-    val pagedCities: Flow<PagingData<City>> = _onlyFavorites
-        .flatMapLatest { onlyFavorites ->
-            cityRepository.getPagedCities(onlyFavorites)
-        }
-        .cachedIn(viewModelScope)
 
     fun selectCity(city: City) {
         _selectedCity.value = city

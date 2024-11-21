@@ -41,15 +41,21 @@ class CityRepositoryImpl(
     override fun getPagedCities(onlyFavorites: Boolean?): Flow<PagingData<City>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 20,
+                pageSize = 30,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { cityDao.getPagedCities(onlyFavorites) }
         ).flow
     }
 
-    override fun searchCities(query: String, onlyFavorites: Boolean? ): Flow<List<City>> {
-        return cityDao.searchCities(query, onlyFavorites)
+    override fun searchCitiesPaginated(query: String, onlyFavorites: Boolean? ): Flow<PagingData<City>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 15,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { cityDao.searchCitiesPaginated(query, onlyFavorites) }
+        ).flow
     }
 
     override suspend fun updateCity(city: City) {

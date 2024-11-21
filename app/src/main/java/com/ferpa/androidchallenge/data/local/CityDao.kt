@@ -29,9 +29,21 @@ interface CityDao {
         "SELECT * FROM city " +
                 "WHERE (:onlyFavorites IS NULL OR isFavorite = :onlyFavorites) " +
                 "AND (name LIKE :query || '%' OR country LIKE :query || '%') " +
+                "UNION " +
+                "SELECT * FROM city " +
+                "WHERE (:onlyFavorites IS NULL OR isFavorite = :onlyFavorites) " +
+                "AND (name LIKE '%' || :query || '%') " +
                 "ORDER BY name ASC"
     )
-    fun searchCities(query: String, onlyFavorites: Boolean? = null): Flow<List<City>>
+    fun searchCitiesPaginated(query: String, onlyFavorites: Boolean? = null): PagingSource<Int, City>
+
+//    @Query(
+//        "SELECT * FROM city " +
+//                "WHERE (:onlyFavorites IS NULL OR isFavorite = :onlyFavorites) " +
+//                "AND (name LIKE '%' || :query || '%' OR country LIKE :query || '%') " +
+//                "ORDER BY name ASC"
+//    )
+//    fun searchCities(query: String, onlyFavorites: Boolean? = null): Flow<List<City>>
 
     @Update
     suspend fun updateCity(city: City)

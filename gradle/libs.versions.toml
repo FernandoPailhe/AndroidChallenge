@@ -16,7 +16,7 @@ pagingRuntime = "3.3.4"
 pagingComposeAndroid = "1.0.0-alpha20"
 hiltNavigationCompose = "1.0.0"
 google-maps-compose = "2.11.0"
-google-play-services-maps = "18.1.0"
+google-play-services-maps = "19.0.0"
 kotlin-coroutines = "1.7.3"
 
 [libraries]

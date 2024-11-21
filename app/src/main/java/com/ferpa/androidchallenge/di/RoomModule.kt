@@ -23,6 +23,7 @@ object RoomModule {
             CityRoomDatabase::class.java,
             CityRoomDatabase.DATABASE_NAME
         )
+            .fallbackToDestructiveMigration()
             .build()
     }
 

@@ -7,7 +7,7 @@ import com.ferpa.androidchallenge.data.utils.Converters
 import com.ferpa.androidchallenge.remote.dto.City
 
 @Database(
-    version = 1,
+    version = 2,
     entities = [
         City::class,
     ],
