@@ -1,7 +1,6 @@
 package com.ferpa.androidchallenge.presentation.city.screens
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -14,9 +13,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -55,8 +54,10 @@ fun CityMainScreen(
             if (progress < 100) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(text = "${stringResource(id = R.string.fetching_data)}", modifier = Modifier.padding(16.dp))
-                        Text(text = "$progress%", modifier = Modifier.padding(16.dp))
+                        Text(text = "${stringResource(id = R.string.fetching_data)}", modifier = Modifier.padding(16.dp),
+                            color = MaterialTheme.colorScheme.onSurface)
+                        Text(text = "$progress%", modifier = Modifier.padding(16.dp),
+                            color = MaterialTheme.colorScheme.onSurface)
                         LinearProgressIndicator(progress = progress / 100f)
                     }
                 }

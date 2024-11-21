@@ -25,7 +25,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ferpa.androidchallenge.R
 import com.ferpa.androidchallenge.remote.dto.City
-import com.ferpa.androidchallenge.remote.dto.getCardSubtitle
 import com.ferpa.androidchallenge.remote.dto.getCardTitle
 
 @Composable

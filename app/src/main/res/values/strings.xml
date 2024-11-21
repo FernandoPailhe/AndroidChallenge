@@ -5,6 +5,7 @@
     <string name="search_cities_placeholder">Search cities</string>
     <string name="show_favorites">Show favorites</string>
     <string name="coordinates">Lat: %1$s, Long: %2$s</string>
+    <string name="empty_state">No matches found for your search</string>
     <string name="city_detail_disclaimer">The code for this screen was not provided</string>
     <string name="city">City: </string>
     <string name="country_code">Country code: </string>
