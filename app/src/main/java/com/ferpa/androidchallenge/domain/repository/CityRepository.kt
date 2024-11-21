@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface CityRepository {
     suspend fun fetchAndStoreCities(onProgress: (Int) -> Unit)
-    fun getPagedCities(): Flow<PagingData<City>>
-    fun searchCities(query: String): Flow<List<City>>
+    fun getPagedCities(onlyFavorites: Boolean? = null): Flow<PagingData<City>>
+    fun searchCities(query: String, onlyFavorites: Boolean? = null): Flow<List<City>>
+    suspend fun updateCity(updatedCity: City)
 }

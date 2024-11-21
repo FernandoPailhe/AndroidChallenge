@@ -7,6 +7,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.ferpa.androidchallenge.common.UiState
 import com.ferpa.androidchallenge.domain.businesslogic.SearchCitiesUseCase
+import com.ferpa.androidchallenge.domain.businesslogic.ToggleFavoriteCityUseCase
 import com.ferpa.androidchallenge.domain.repository.CityRepository
 import com.ferpa.androidchallenge.remote.dto.City
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
@@ -25,7 +27,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CityViewModel @Inject constructor(
     private val cityRepository: CityRepository,
-    private val searchCitiesUseCase: SearchCitiesUseCase
+    private val searchCitiesUseCase: SearchCitiesUseCase,
+    private val toggleFavoriteCityUseCase: ToggleFavoriteCityUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState<Int>>(UiState.Loading)
@@ -37,11 +40,17 @@ class CityViewModel @Inject constructor(
     private val _query = MutableStateFlow("")
     val query: StateFlow<String> = _query
 
-    val searchResults: StateFlow<List<City>> = query
-        .debounce(300)
-        .distinctUntilChanged()
-        .flatMapLatest { query ->
-            searchCitiesUseCase(query)
+    private val _onlyFavorites = MutableStateFlow<Boolean?>(null)
+    val onlyFavorites: StateFlow<Boolean?> = _onlyFavorites
+
+    val searchResults: StateFlow<List<City>> = combine(
+        query.debounce(300).distinctUntilChanged(),
+        _onlyFavorites
+    ) { query, onlyFavorites ->
+        query to onlyFavorites
+    }
+        .flatMapLatest { (query, onlyFavorites) ->
+            searchCitiesUseCase(query, onlyFavorites)
         }
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
@@ -49,7 +58,10 @@ class CityViewModel @Inject constructor(
         downloadAndSaveCities()
     }
 
-    val pagedCities: Flow<PagingData<City>> = cityRepository.getPagedCities()
+    val pagedCities: Flow<PagingData<City>> = _onlyFavorites
+        .flatMapLatest { onlyFavorites ->
+            cityRepository.getPagedCities(onlyFavorites)
+        }
         .cachedIn(viewModelScope)
 
     fun selectCity(city: City) {
@@ -57,11 +69,17 @@ class CityViewModel @Inject constructor(
     }
 
     fun toggleIsFavorite(city: City) {
-
+        viewModelScope.launch {
+            toggleFavoriteCityUseCase(city)
+        }
     }
 
     fun updateQuery(newQuery: String) {
         _query.value = newQuery
+    }
+
+    fun toggleFavoritesFilter() {
+        _onlyFavorites.value = if (_onlyFavorites.value == true) null else true
     }
 
     private fun downloadAndSaveCities() {

@@ -1,12 +1,14 @@
 package com.ferpa.androidchallenge.presentation.city.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.*
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -18,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ferpa.androidchallenge.presentation.Screen
@@ -40,6 +41,7 @@ fun SearchCityScreen(
 
     val query by viewModel.query.collectAsState()
 
+    val onlyFavorites by viewModel.onlyFavorites.collectAsState()
     val searchResults by viewModel.searchResults.collectAsState()
     val pagedCities = viewModel.pagedCities.collectAsLazyPagingItems()
 
@@ -50,6 +52,22 @@ fun SearchCityScreen(
             modifier = Modifier.padding(horizontal = padding, vertical = 0.dp),
             placeholder = "Search cities..."
         )
+        Row(
+            modifier = Modifier
+                .clickable { viewModel.toggleFavoritesFilter() }
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(
+                checked = onlyFavorites == true,
+                onCheckedChange = { viewModel.toggleFavoritesFilter() }
+            )
+            Text(
+                text = "Show Favorites",
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(start = 4.dp)
+            )
+        }
         if (query == "") {
             LazyColumn(
                 modifier = Modifier
