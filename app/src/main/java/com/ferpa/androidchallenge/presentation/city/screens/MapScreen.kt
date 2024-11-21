@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ferpa.androidchallenge.presentation.city.CityViewModel
-import com.ferpa.androidchallenge.presentation.city.MapViewModel
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
