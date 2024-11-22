@@ -7,7 +7,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.ferpa.androidchallenge.remote.dto.City
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CityDao {
@@ -36,14 +35,6 @@ interface CityDao {
                 "ORDER BY name ASC"
     )
     fun searchCitiesPaginated(query: String, onlyFavorites: Boolean? = null): PagingSource<Int, City>
-
-//    @Query(
-//        "SELECT * FROM city " +
-//                "WHERE (:onlyFavorites IS NULL OR isFavorite = :onlyFavorites) " +
-//                "AND (name LIKE '%' || :query || '%' OR country LIKE :query || '%') " +
-//                "ORDER BY name ASC"
-//    )
-//    fun searchCities(query: String, onlyFavorites: Boolean? = null): Flow<List<City>>
 
     @Update
     suspend fun updateCity(city: City)
