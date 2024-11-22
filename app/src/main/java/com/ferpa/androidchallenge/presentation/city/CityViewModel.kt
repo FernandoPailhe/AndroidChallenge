@@ -39,6 +39,10 @@ class CityViewModel @Inject constructor(
     private val _onlyFavorites = MutableStateFlow<Boolean?>(null)
     val onlyFavorites: StateFlow<Boolean?> = _onlyFavorites
 
+    private val _showErrorDialog = MutableStateFlow(false)
+    val showErrorDialog: StateFlow<Boolean> = _showErrorDialog
+
+
     // Unified paginated results with or without search query
     val searchResults: Flow<PagingData<City>> = combine(
         query.debounce(300).distinctUntilChanged(),
@@ -52,6 +56,11 @@ class CityViewModel @Inject constructor(
         .cachedIn(viewModelScope)
 
     init {
+        downloadAndSaveCities()
+    }
+
+    fun retryDownload() {
+        _uiState.value = UiState.Loading
         downloadAndSaveCities()
     }
 
@@ -75,10 +84,14 @@ class CityViewModel @Inject constructor(
 
     private fun downloadAndSaveCities() {
         viewModelScope.launch {
-            cityRepository.fetchAndStoreCities { progress ->
-                _uiState.value = UiState.Success(progress)
+            try {
+                cityRepository.fetchAndStoreCities { progress ->
+                    _uiState.value = UiState.Success(progress)
+                }
+                _uiState.value = UiState.Success(100)
+            } catch (e: Exception) {
+                _uiState.value = UiState.Error(e.message)
             }
-            _uiState.value = UiState.Success(100)
         }
     }
 

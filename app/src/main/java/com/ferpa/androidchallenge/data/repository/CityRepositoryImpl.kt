@@ -10,6 +10,7 @@ import com.ferpa.androidchallenge.remote.dto.City
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import java.net.UnknownHostException
 
 class CityRepositoryImpl(
     private val cityDao: CityDao,
@@ -31,6 +32,8 @@ class CityRepositoryImpl(
                         onProgress(progress)
                     }
                 }
+            } catch (e: UnknownHostException) {
+                throw Exception("Unable to connect to the server. Please check your network connection.", e)
             } catch (e: Exception) {
                 e.printStackTrace()
                 throw e

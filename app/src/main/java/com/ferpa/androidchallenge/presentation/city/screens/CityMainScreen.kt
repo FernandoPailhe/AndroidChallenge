@@ -7,12 +7,14 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.with
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -25,8 +27,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -49,15 +51,21 @@ fun CityMainScreen(
                 CircularProgressIndicator()
             }
         }
+
         is UiState.Success -> {
             val progress = (uiState as UiState.Success<Int>).data
             if (progress < 100) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(text = "${stringResource(id = R.string.fetching_data)}", modifier = Modifier.padding(16.dp),
-                            color = MaterialTheme.colorScheme.onSurface)
-                        Text(text = "$progress%", modifier = Modifier.padding(16.dp),
-                            color = MaterialTheme.colorScheme.onSurface)
+                        Text(
+                            text = "${stringResource(id = R.string.fetching_data)}",
+                            modifier = Modifier.padding(16.dp),
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Text(
+                            text = "$progress%", modifier = Modifier.padding(16.dp),
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
                         LinearProgressIndicator(progress = progress / 100f)
                     }
                 }
@@ -67,12 +75,16 @@ fun CityMainScreen(
                 if (isLandscape) {
                     Row(modifier = Modifier.fillMaxSize()) {
                         SearchCityScreen(
-                            modifier = Modifier.weight(.4f).fillMaxHeight(),
+                            modifier = Modifier
+                                .weight(.4f)
+                                .fillMaxHeight(),
                             navController = navController,
                             viewModel = viewModel,
                         )
                         MapScreen(
-                            modifier = Modifier.weight(.6f).fillMaxHeight(),
+                            modifier = Modifier
+                                .weight(.6f)
+                                .fillMaxHeight(),
                             viewModel = viewModel,
                         )
                     }
@@ -109,62 +121,32 @@ fun CityMainScreen(
                 }
             }
         }
+
         is UiState.Error -> {
             val message = (uiState as UiState.Error).message
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(text = "Error: $message", color = Color.Red)
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalAnimationApi::class)
-@Composable
-fun CityContent(
-    navController: NavController,
-    viewModel: CityViewModel
-) {
-    val isLandscape = isLandscape()
-
-    if (isLandscape) {
-        Row(modifier = Modifier.fillMaxSize()) {
-            SearchCityScreen(
-                modifier = Modifier.weight(.4f).fillMaxHeight(),
-                navController = navController,
-                viewModel = viewModel,
-            )
-            MapScreen(
-                modifier = Modifier.weight(.6f).fillMaxHeight(),
-                viewModel = viewModel,
-            )
-        }
-    } else {
-        Box {
-            var showMap by remember { mutableStateOf(false) }
-
-            AnimatedContent(
-                targetState = showMap,
-                transitionSpec = {
-                    if (targetState) {
-                        slideInHorizontally { it } + fadeIn() with slideOutHorizontally { -it } + fadeOut()
-                    } else {
-                        slideInHorizontally { -it } + fadeIn() with slideOutHorizontally { it } + fadeOut()
-                    }
-                }, label = ""
-            ) { target ->
-                if (target) {
-                    MapScreen(
-                        onBackPressed = { showMap = false },
-                        viewModel = viewModel,
-                    )
-                } else {
-                    SearchCityScreen(
-                        onCitySelected = { city ->
-                            showMap = true
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Text(
+                        text = if (message !== null) {
+                            "Error: $message"
+                        } else {
+                            stringResource(R.string.error_dialog_message)
                         },
-                        navController = navController,
-                        viewModel = viewModel,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.bodyLarge,
+                        textAlign = TextAlign.Center
                     )
+                    Button(onClick = { viewModel.retryDownload() }) {
+                        Text(text = stringResource(id = R.string.retry))
+                    }
                 }
             }
         }

@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">AndroidChallenge</string>
     <string name="fetching_data">Fetching data, please wait…</string>
+    <string name="error_message_no_connection">Unable to download necessary data. Please check your internet connection and try again.</string>
+    <string name="retry">Retry</string>
     <string name="search_placeholder">Search</string>
     <string name="search_cities_placeholder">Search cities</string>
     <string name="show_favorites">Show favorites</string>
