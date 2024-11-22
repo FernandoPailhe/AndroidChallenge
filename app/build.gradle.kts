@@ -80,6 +80,9 @@ dependencies {
     implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.paging.compose.android)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.runner)
+    implementation(libs.androidx.junit.ktx)
+    implementation(libs.core.ktx)
 
     // Hilt dependencies
     ksp(libs.hilt.compiler)
@@ -107,4 +110,16 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Unit Testing
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    androidTestImplementation(libs.mockk.android)
+
+    // Coroutines Testing
+    testImplementation(libs.kotlinx.coroutines.test)
+
+    // Paging Testing
+    testImplementation(libs.androidx.paging.common.ktx)
+    testImplementation(libs.turbine)
 }
